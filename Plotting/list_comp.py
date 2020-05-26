@@ -66,23 +66,6 @@ for testRun in jsonVal4:
     test4Val1.append(testRun['VALIDITY1'])
     test4Val2.append(testRun['VALIDITY2'])
 
-print(test3Rates)
-print(test3TQRs)
-print(test3TSQs)
-print(test3TPRs)
-
-print(test4Rates)
-print(test4TQRs)
-print(test4TSQs)
-print(test4TPRs)
-
-print(test3Val0)
-print(test3Val1)
-print(test3Val2)
-print(test4Val0)
-print(test4Val1)
-print(test4Val2)
-
 import numpy as np
 
 # indep var spaced properly
@@ -109,9 +92,9 @@ import pandas as pantelis
 #test3 plots
 df = pantelis.DataFrame({'Inner Auth Fail' : dep3V1, 'Outer Auth Fail' : dep3V0, 'Successful Auth' : dep3V2}, index=test3Rates)
 ax = df.plot.bar(rot=0)
+print(df)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('% of total Authentication Attempts')
-print(df)
 plt.show()
 
 timeData = []
@@ -120,18 +103,18 @@ for i in range(len(test3Rates)):
 
 df = pantelis.DataFrame(timeData, columns = ['TSQ', 'TPR', 'TQR'])
 df.plot.bar(stacked=True)
+print(df)
 plt.xticks(indpRates, test3Rates)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('Time in milliseconds')
-print(df)
 plt.show()
 
 #test4 plots
 df = pantelis.DataFrame({'Inner Auth Fail' : dep4V1, 'Outer Auth Fail' : dep4V0, 'Successful Auth' : dep4V2}, index=test3Rates)
 ax = df.plot.bar(rot=0)
+print(df)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('% of total Authentication Attempts')
-print(df)
 plt.show()
 
 timeData = []
@@ -140,10 +123,10 @@ for i in range(len(test3Rates)):
 
 df = pantelis.DataFrame(timeData, columns = ['TSQ', 'TPR', 'TQR'])
 df.plot.bar(stacked=True)
+print(df)
 plt.xticks(indpRates, test3Rates)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('Time in milliseconds')
-print(df)
 plt.show()
 
 
