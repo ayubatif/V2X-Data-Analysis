@@ -71,6 +71,7 @@ import numpy as np
 # indep var spaced properly
 N = len(test3Rates)
 indpRates = np.arange(N)
+percentTicks = range(0, 110, 10)
 
 # dep vars
 dep3Ts = np.array(test3TSQs) # send q
@@ -89,14 +90,18 @@ dep4V2 = np.array(test4Val2) # auth success
 import matplotlib.pyplot as plt
 import pandas as pantelis
 
-#test3 plots
+#test3 auth plot
 df = pantelis.DataFrame({'Inner Auth Fail' : dep3V1, 'Outer Auth Fail' : dep3V0, 'Successful Auth' : dep3V2}, index=test3Rates)
 ax = df.plot.bar(rot=0)
 print(df)
+plt.xticks(indpRates, test3Rates)
+plt.yticks(percentTicks)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('% of total Authentication Attempts')
+plt.grid(color='black', which='major', axis='y', linestyle='dotted')
 plt.show()
 
+#test3 time plot
 timeData = []
 for i in range(len(test3Rates)):
     timeData.append([dep3Ts[i], dep3Tp[i], dep3Tq[i]])
@@ -109,14 +114,18 @@ plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('Time in milliseconds')
 plt.show()
 
-#test4 plots
+#test4 auth plot
 df = pantelis.DataFrame({'Inner Auth Fail' : dep4V1, 'Outer Auth Fail' : dep4V0, 'Successful Auth' : dep4V2}, index=test3Rates)
 ax = df.plot.bar(rot=0)
 print(df)
+plt.xticks(indpRates, test3Rates)
+plt.yticks(percentTicks)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('% of total Authentication Attempts')
+plt.grid(color='black', which='major', axis='y', linestyle='dotted')
 plt.show()
 
+#test4 time plot
 timeData = []
 for i in range(len(test3Rates)):
     timeData.append([dep4Ts[i], dep4Tp[i], dep4Tq[i]])
