@@ -83,31 +83,6 @@ N = len(test3Rates)
 indpRates = np.arange(N)
 percentTicks = range(0, 110, 10)
 
-# dep vars
-mean3Ts = np.array(test3TSQs) # send q
-mean3Tp = np.array(test3TPRs) # process r
-mean3Tq = np.array(test3TQRs) # q resolved
-
-mean4Ts = np.array(test4TSQs)
-mean4Tp = np.array(test4TPRs)
-mean4Tq = np.array(test4TQRs)
-
-stdev3Ts = np.array(test3TSQstd)
-stdev3Tp = np.array(test3TPRstd)
-stdev3Tq = np.array(test3TQRstd)
-
-stdev4Ts = np.array(test4TSQstd)
-stdev4Tp = np.array(test4TPRstd)
-stdev4Tq = np.array(test4TQRstd)
-
-mean3V0 = np.array(test3Val0) # outer auth fail
-mean3V1 = np.array(test3Val1) # inner auth fail
-mean3V2 = np.array(test3Val2) # auth success
-
-mean4V0 = np.array(test4Val0)
-mean4V1 = np.array(test4Val1) 
-mean4V2 = np.array(test4Val2)
-
 import math
 import statistics as meaner
 # the distribution of a sum of two normally distributed independent 
@@ -115,13 +90,13 @@ import statistics as meaner
 # respectively is another normal distribution
 
 # get one time means instead of 10 because of pseudonym rates
-test3MeanTSQ = meaner.mean(mean3Ts)
-test3MeanTPR = meaner.mean(mean3Tp)
-test3MeanTQR = meaner.mean(mean3Tq)
+test3MeanTSQ = meaner.mean(test3TSQs)
+test3MeanTPR = meaner.mean(test3TPRs)
+test3MeanTQR = meaner.mean(test3TQRs)
 
-test4MeanTSQ = meaner.mean(mean4Ts)
-test4MeanTPR = meaner.mean(mean4Tp)
-test4MeanTQR = meaner.mean(mean4Tq)
+test4MeanTSQ = meaner.mean(test4TSQs)
+test4MeanTPR = meaner.mean(test4TPRs)
+test4MeanTQR = meaner.mean(test4TQRs)
 
 # get one time stdevs instead of 10 because of pseudonym rates
 def stdev_sum_vars(data):
@@ -130,12 +105,12 @@ def stdev_sum_vars(data):
         v += math.pow(data[i], 2)
     return math.sqrt(v)
 
-test3stdevTSQ = stdev_sum_vars(stdev3Ts)
-test3stdevTPR = stdev_sum_vars(stdev3Tp)
-test3stdevTQR = stdev_sum_vars(stdev3Tq)
-test4stdevTSQ = stdev_sum_vars(stdev4Ts)
-test4stdevTPR = stdev_sum_vars(stdev4Tp)
-test4stdevTQR = stdev_sum_vars(stdev4Tq)
+test3stdevTSQ = stdev_sum_vars(test3TSQstd)
+test3stdevTPR = stdev_sum_vars(test3TPRstd)
+test3stdevTQR = stdev_sum_vars(test3TQRstd)
+test4stdevTSQ = stdev_sum_vars(test4TSQstd)
+test4stdevTPR = stdev_sum_vars(test4TPRstd)
+test4stdevTQR = stdev_sum_vars(test4TQRstd)
 
 from scipy.stats import norm, t
 
@@ -159,14 +134,14 @@ def two_sample_t_test(sampleSize, mean1, mean2, stdev1, stdev2, alpha=0.05):
     else:
         return True
 
-# calculate confidence intervals
+# calculate confidence intervals for TQR chart
 CI_TQR3 = []
 CI_TQR4 = []
+for i in range(0,len(test3TQRstd)):
+    CI_TQR3.append(calculate_confidence_interval(totalSamples, test3TQRstd[i]))
+    CI_TQR4.append(calculate_confidence_interval(totalSamples, test4TQRstd[i]))
 
-for i in range(0,len(stdev3Tq)):
-    CI_TQR3.append(calculate_confidence_interval(totalSamples, stdev3Tq[i]))
-    CI_TQR4.append(calculate_confidence_interval(totalSamples, stdev4Tq[i]))
-
+# print means and their confidence intervals
 print("test3 TSQ: "+str(test3MeanTSQ)+" +- "+str(calculate_confidence_interval(totalSamples, test3stdevTSQ)))
 print("test4 TSQ: "+str(test4MeanTSQ)+" +- "+str(calculate_confidence_interval(totalSamples, test4stdevTSQ)))
 print("test3 TPR: "+str(test3MeanTPR)+" +- "+str(calculate_confidence_interval(totalSamples, test3stdevTPR)))
@@ -179,8 +154,8 @@ print("Null hypothesis \'TSQ diff is not significant\' is: "+str(two_sample_t_te
 print("Null hypothesis \'TPR diff is not significant\' is: "+str(two_sample_t_test(totalSamples, test3MeanTPR, test4MeanTPR, test3stdevTPR, test4stdevTPR)))
 print("Null hypothesis \'TQR diff is not significant\' is: "+str(two_sample_t_test(totalSamples, test3MeanTQR, test4MeanTQR, test3stdevTQR, test4stdevTQR)))
 
-import matplotlib.pyplot as plt
-import pandas as pantelis
+# import matplotlib.pyplot as plt
+# import pandas as pantelis
 
 # #test3 auth plot
 # df = pantelis.DataFrame({'Inner Auth Fail' : dep3V1, 'Outer Auth Fail' : dep3V0, 'Successful Auth' : dep3V2}, index=test3Rates)
@@ -210,19 +185,8 @@ import pandas as pantelis
 #     timeData.append([dep3Ts[i], dep3Tp[i], dep3Tq[i]])
 
 # df = pantelis.DataFrame(timeData, columns = ['TSQ', 'TPR', 'TQR'])
-
-# # calc the 95% confidence intervals
-# tsqCI = mean_confidence_interval(df['TSQ'])
-# tprCI = mean_confidence_interval(df['TPR'])
-# tqrCI = mean_confidence_interval(df['TQR'])
-
-# print(tsqCI[1])
-# print(tprCI )
-# print(tqrCI)
-
-# df.plot.bar(stacked=True, yerr=1)
+# df.plot.bar(stacked=True)
 # print(df)
-
 # plt.xticks(indpRates, test3Rates)
 # plt.xlabel('Pseudonym Change Rate')
 # plt.ylabel('Time in milliseconds')
