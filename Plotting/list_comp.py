@@ -53,7 +53,7 @@ for testRun in jsonTime3:
     test3TSQstd.append(testRun['TSQ_SAMPLE_STANDARD_DEVIATION'])
     test3TPRs.append(testRun['ALL_AVG_TPR'])
     test3TPRstd.append(testRun['TPR_SAMPLE_STANDARD_DEVIATION'])
-    test3TQRs.append(testRun['ALL_AVG_TQR']-testRun['ALL_AVG_TSQ']-testRun['ALL_AVG_TPR'])
+    test3TQRs.append(testRun['ALL_AVG_TQR'])
     test3TQRstd.append(testRun['TQR_SAMPLE_STANDARD_DEVIATION'])
 
 for testRun in jsonTime4:
@@ -62,7 +62,7 @@ for testRun in jsonTime4:
     test4TSQstd.append(testRun['TSQ_SAMPLE_STANDARD_DEVIATION'])
     test4TPRs.append(testRun['ALL_AVG_TPR'])
     test4TPRstd.append(testRun['TPR_SAMPLE_STANDARD_DEVIATION'])
-    test4TQRs.append(testRun['ALL_AVG_TQR']-testRun['ALL_AVG_TSQ']-testRun['ALL_AVG_TPR'])
+    test4TQRs.append(testRun['ALL_AVG_TQR'])
     test4TQRstd.append(testRun['TQR_SAMPLE_STANDARD_DEVIATION'])
 
 # append val results from log to lists
@@ -108,7 +108,11 @@ mean4V0 = np.array(test4Val0)
 mean4V1 = np.array(test4Val1) 
 mean4V2 = np.array(test4Val2)
 
+import math
 import statistics as meaner
+# the distribution of a sum of two normally distributed independent 
+# variates X and Y with means and variances (μX,σ2X) and (μY,σ2Y), 
+# respectively is another normal distribution
 
 # get one time means instead of 10 because of pseudonym rates
 test3MeanTSQ = meaner.mean(mean3Ts)
@@ -119,36 +123,61 @@ test4MeanTSQ = meaner.mean(mean4Ts)
 test4MeanTPR = meaner.mean(mean4Tp)
 test4MeanTQR = meaner.mean(mean4Tq)
 
-import math
-import scipy.stats as stats
+# get one time stdevs instead of 10 because of pseudonym rates
+def stdev_sum_vars(data):
+    v = 0
+    for i in range(0, len(data)):
+        v += math.pow(data[i], 2)
+    return math.sqrt(v)
+
+test3stdevTSQ = stdev_sum_vars(stdev3Ts)
+test3stdevTPR = stdev_sum_vars(stdev3Tp)
+test3stdevTQR = stdev_sum_vars(stdev3Tq)
+test4stdevTSQ = stdev_sum_vars(stdev4Ts)
+test4stdevTPR = stdev_sum_vars(stdev4Tp)
+test4stdevTQR = stdev_sum_vars(stdev4Tq)
+
+from scipy.stats import norm, t
 
 # https://www.mathsisfun.com/data/confidence-interval-calculator.html
-def calculate_95_confidence_interval(sampleSize, stdev, confidence=0.95):
-    z = stats.norm.ppf(.95)
+def calculate_confidence_interval(sampleSize, stdev, confidence=0.95):
     n, s = sampleSize, stdev
+    z = t.ppf((1 + confidence) / 2., n - 1)
     h = s / math.sqrt(n) * z
     return h
 
 # https://en.wikipedia.org/wiki/Student's_t-test#Independent_two-sample_t-test
 # Reject the null hypothesis that the two means are equal if |T| > t 1-α/2,freedom
 def two_sample_t_test(sampleSize, mean1, mean2, stdev1, stdev2, alpha=0.05):
-    sp = math.sqrt((stdev1^2 + stdev2^2) / 2)
     x1, x2 = mean1, mean2
+    sp = math.sqrt(math.pow(stdev1, 2) + math.pow(stdev2, 2) / 2)
     T = (x1 - x2) / (sp * math.sqrt(2 / sampleSize))
     freedom = 2 * sampleSize - 2
-    critical = stats.pdf(1-alpha/2, freedom)
+    critical = t.pdf(1-alpha/2, freedom)
     if (abs(T) > critical):
         return False
     else:
         return True
 
 # calculate confidence intervals
-CItime3 = []
-CItime4 = []
+CI_TQR3 = []
+CI_TQR4 = []
 
-for i in range(0,len(stdev3Tq)-1):
-    CItime3.append(calculate_95_confidence_interval(totalSamples, stdev3Tq[i]))
-    CItime4.append(calculate_95_confidence_interval(totalSamples, stdev4Tq[i]))
+for i in range(0,len(stdev3Tq)):
+    CI_TQR3.append(calculate_confidence_interval(totalSamples, stdev3Tq[i]))
+    CI_TQR4.append(calculate_confidence_interval(totalSamples, stdev4Tq[i]))
+
+print("test3 TSQ: "+str(test3MeanTSQ)+" +- "+str(calculate_confidence_interval(totalSamples, test3stdevTSQ)))
+print("test4 TSQ: "+str(test4MeanTSQ)+" +- "+str(calculate_confidence_interval(totalSamples, test4stdevTSQ)))
+print("test3 TPR: "+str(test3MeanTPR)+" +- "+str(calculate_confidence_interval(totalSamples, test3stdevTPR)))
+print("test4 TPR: "+str(test4MeanTPR)+" +- "+str(calculate_confidence_interval(totalSamples, test4stdevTPR)))
+print("test3 TQR: "+str(test3MeanTQR)+" +- "+str(calculate_confidence_interval(totalSamples, test3stdevTQR)))
+print("test4 TQR: "+str(test4MeanTQR)+" +- "+str(calculate_confidence_interval(totalSamples, test4stdevTQR)))
+
+# test if the null hypothesis the mean TQR for test 3 and 4 are not significantly different is true
+print("Null hypothesis \'TSQ diff is not significant\' is: "+str(two_sample_t_test(totalSamples, test3MeanTSQ, test4MeanTSQ, test3stdevTSQ, test4stdevTSQ)))
+print("Null hypothesis \'TPR diff is not significant\' is: "+str(two_sample_t_test(totalSamples, test3MeanTPR, test4MeanTPR, test3stdevTPR, test4stdevTPR)))
+print("Null hypothesis \'TQR diff is not significant\' is: "+str(two_sample_t_test(totalSamples, test3MeanTQR, test4MeanTQR, test3stdevTQR, test4stdevTQR)))
 
 import matplotlib.pyplot as plt
 import pandas as pantelis
