@@ -20,6 +20,8 @@ jsonData1 = json.loads(jsonDataStr1)
 jsonData2 = json.loads(jsonDataStr2)
 jsonData3 = json.loads(jsonDataStr3)
 jsonData4 = json.loads(jsonDataStr4)
+jsonTime1 = json.loads(jsonTimeStr1)
+jsonTime2 = json.loads(jsonTimeStr2)
 jsonTime3 = json.loads(jsonTimeStr3)
 jsonTime4 = json.loads(jsonTimeStr4)
 jsonVal3 = json.loads(jsonValStr3)
@@ -44,22 +46,36 @@ test4Data2 = 0
 totalSamples = jsonTime3[0]['TOTAL']
 
 # empty pseudo rate lists to be filled
+test1Rates = []
+test2Rates = []
 test3Rates = []
 test4Rates = []
 
 # empty TQR lists to be filled
+test1TQRs = []
+test1TQRstd = []
+test2TQRs = []
+test2TQRstd = []
 test3TQRs = []
 test3TQRstd = []
 test4TQRs = []
 test4TQRstd = []
 
 # empty TSQ lists to be filled
+test1TSQs = []
+test1TSQstd = []
+test2TSQs = []
+test2TSQstd = []
 test3TSQs = []
 test3TSQstd = []
 test4TSQs = []
 test4TSQstd = []
 
 # empty TPR lists to be filled
+test1TPRs = []
+test1TPRstd = []
+test2TPRs = []
+test2TPRstd = []
 test3TPRs = []
 test3TPRstd = []
 test4TPRs = []
@@ -157,6 +173,24 @@ if total1 != 0:
 
 
 # append pseudo rates & avg times from log to lists
+for testRun in jsonTime1:
+    # test1Rates.append(testRun['PSEUDO_RATE'])
+    test1TSQs.append(testRun['ALL_AVG_TSQ'])
+    # test1TSQstd.append(testRun['TSQ_SAMPLE_STANDARD_DEVIATION'])
+    test1TPRs.append(testRun['ALL_AVG_TPR'])
+    # test1TPRstd.append(testRun['TPR_SAMPLE_STANDARD_DEVIATION'])
+    test1TQRs.append(testRun['ALL_AVG_TQR'])
+    # test1TQRstd.append(testRun['TQR_SAMPLE_STANDARD_DEVIATION'])
+
+for testRun in jsonTime2:
+    # test2Rates.append(testRun['PSEUDO_RATE'])
+    test2TSQs.append(testRun['ALL_AVG_TSQ'])
+    # test2TSQstd.append(testRun['TSQ_SAMPLE_STANDARD_DEVIATION'])
+    test2TPRs.append(testRun['ALL_AVG_TPR'])
+    # test2TPRstd.append(testRun['TPR_SAMPLE_STANDARD_DEVIATION'])
+    test2TQRs.append(testRun['ALL_AVG_TQR'])
+    # test2TQRstd.append(testRun['TQR_SAMPLE_STANDARD_DEVIATION'])
+
 for testRun in jsonTime3:
     test3Rates.append(testRun['PSEUDO_RATE'])
     test3TSQs.append(testRun['ALL_AVG_TSQ'])
@@ -200,6 +234,14 @@ import statistics as meaner
 # respectively is another normal distribution
 
 # get one time means instead of 10 because of pseudonym rates
+test1MeanTSQ = meaner.mean(test1TSQs)
+test1MeanTPR = meaner.mean(test1TPRs)
+test1MeanTQR = meaner.mean(test1TQRs)
+
+test2MeanTSQ = meaner.mean(test2TSQs)
+test2MeanTPR = meaner.mean(test2TPRs)
+test2MeanTQR = meaner.mean(test2TQRs)
+
 test3MeanTSQ = meaner.mean(test3TSQs)
 test3MeanTPR = meaner.mean(test3TPRs)
 test3MeanTQR = meaner.mean(test3TQRs)
@@ -215,6 +257,12 @@ def stdev_sum_vars(data):
         v += math.pow(data[i], 2)
     return math.sqrt(v)
 
+test1stdevTSQ = stdev_sum_vars(test1TSQstd)
+test1stdevTPR = stdev_sum_vars(test1TPRstd)
+test1stdevTQR = stdev_sum_vars(test1TQRstd)
+test2stdevTSQ = stdev_sum_vars(test2TSQstd)
+test2stdevTPR = stdev_sum_vars(test2TPRstd)
+test2stdevTQR = stdev_sum_vars(test2TQRstd)
 test3stdevTSQ = stdev_sum_vars(test3TSQstd)
 test3stdevTPR = stdev_sum_vars(test3TPRstd)
 test3stdevTQR = stdev_sum_vars(test3TQRstd)
