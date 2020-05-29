@@ -287,8 +287,7 @@ def two_sample_t_test(sampleSize, mean1, mean2, stdev1, stdev2, alpha=0.05):
     T = (x1 - x2) / (sp * math.sqrt(2 / sampleSize))
     freedom = 2 * sampleSize - 2
     critical = t.pdf(1-alpha/2, freedom)
-    print(critical)
-    print(abs(T))
+    print("crit: "+str(critical)+"\nTval: "+str(abs(T)))
     if (abs(T) > critical):
         return False
     else:
@@ -339,6 +338,7 @@ test1Data = [data0, data1, data2]
 
 plt.bar(y_pos, test1Data, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
+plt.yticks(percentTicks)
 plt.ylabel('Percentage')
 plt.title('Test 1 data type percentage')
 
@@ -358,8 +358,10 @@ y_pos = np.arange(len(objects))
 
 plt.bar(y_pos, test2Data, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
+plt.yticks(percentTicks)
 plt.ylabel('Percentage')
 plt.title('Test 2 data type percentage')
+
 
 plt.show()
 
@@ -370,6 +372,7 @@ y_pos = np.arange(len(objects))
 test3Data = [test3Data0, test3Data1, test3Data2]
 plt.bar(y_pos, test3Data, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
+plt.yticks(percentTicks)
 plt.ylabel('Percentage')
 plt.title('Test 3 data type percentage')
 
@@ -382,6 +385,7 @@ y_pos = np.arange(len(objects))
 test4Data = [test4Data0, test4Data1, test4Data2]
 plt.bar(y_pos, test4Data, align='center', alpha=0.5)
 plt.xticks(y_pos, objects)
+plt.yticks(percentTicks)
 plt.ylabel('Percentage')
 plt.title('Test 4 data type percentage')
 
@@ -395,8 +399,8 @@ plt.xticks(indpRates, test3Rates)
 plt.yticks(percentTicks)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('% of total Authentication Attempts')
-plt.grid(color='black', which='major', axis='y', linestyle='dotted')
 plt.title('Experiment 3 Authentication Scenario Ratios')
+plt.grid(color='black', which='major', axis='y', linestyle='dotted')
 plt.show()
 
 #test3 time plot
@@ -439,4 +443,5 @@ plt.xticks(y_pos, objects)
 plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('Time in milliseconds')
 plt.title('Mean time Analysis of the different experiments')
+
 plt.show()
