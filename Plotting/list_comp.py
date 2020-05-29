@@ -4,7 +4,7 @@ import json
 # string format json test time logs
 jsonDataStr1 = '[{"TOTAL":1002,"DATA2":0,"DATA1":60.67864271457086,"DATA0":39.321357285429144}]'
 jsonDataStr2 = '[{"TOTAL":1009,"DATA2":0,"DATA1":0,"DATA0":100}]'
-jsonDataStr3 = '[{"DATA0":100},{"DATA1":0},{"DATA2":0},{"DATA0":100},{"DATA1":0},{"DATA2":0},{"DATA0":100},{"DATA1":0},{"DATA2":0},{"DATA0":100},{"DATA1":0},{"DATA2":0},{"DATA0":100},{"DATA1":0},{"DATA2":0},{"TOTAL":1004,"PSEUDO_RATE":10,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1013,"PSEUDO_RATE":30,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1006,"PSEUDO_RATE":60,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1007,"PSEUDO_RATE":90,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1008,"PSEUDO_RATE":120,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1005,"PSEUDO_RATE":180,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1011,"PSEUDO_RATE":240,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1005,"PSEUDO_RATE":300,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1013,"PSEUDO_RATE":720,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1013,"PSEUDO_RATE":1000,"DATA2":0,"DATA1":0,"DATA0":100}]'
+jsonDataStr3 = '[{"TOTAL":1004,"PSEUDO_RATE":10,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1013,"PSEUDO_RATE":30,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1006,"PSEUDO_RATE":60,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1007,"PSEUDO_RATE":90,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1008,"PSEUDO_RATE":120,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1005,"PSEUDO_RATE":180,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1011,"PSEUDO_RATE":240,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1005,"PSEUDO_RATE":300,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1013,"PSEUDO_RATE":720,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1013,"PSEUDO_RATE":1000,"DATA2":0,"DATA1":0,"DATA0":100}]'
 jsonDataStr4 = '[{"TOTAL":1008,"PSEUDO_RATE":10,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1010,"PSEUDO_RATE":30,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1005,"PSEUDO_RATE":60,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1004,"PSEUDO_RATE":90,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1010,"PSEUDO_RATE":120,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1012,"PSEUDO_RATE":180,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1011,"PSEUDO_RATE":240,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1005,"PSEUDO_RATE":300,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1015,"PSEUDO_RATE":720,"DATA2":0,"DATA1":0,"DATA0":100},{"TOTAL":1008,"PSEUDO_RATE":1000,"DATA2":0,"DATA1":0,"DATA0":100}]'
 jsonTimeStr1 = '[{"TOTAL":1000,"ALL_AVG_TQR":4,"ALL_AVG_TPR":0.582,"TQR_SAMPLE_STANDARD_DEVIATION":9.748330585240703,"ALL_AVG_TSQ":2.201,"TPR_STANDARD_ERROR":0.031589330447903644,"TSQ_SAMPLE_STANDARD_DEVIATION":1.4900842851804346,"TPR_SAMPLE_STANDARD_DEVIATION":0.6262340765813634,"NOT_AVG_TPR":0.558,"NOT_AVG_TQR":4.626,"TQR_STANDARD_ERROR":0.49173822966269864,"TSQ_STANDARD_ERROR":0.04705008019973274,"NOT_AVG_TSQ":2.071}]'
 jsonTimeStr2 = '[{"TOTAL":1000,"ALL_AVG_TQR":60,"ALL_AVG_TPR":5.018,"TQR_SAMPLE_STANDARD_DEVIATION":19.42167861601677,"ALL_AVG_TSQ":41.988,"TPR_STANDARD_ERROR":0.038794456126370405,"TSQ_SAMPLE_STANDARD_DEVIATION":13.101399250025933,"TPR_SAMPLE_STANDARD_DEVIATION":1.487907743864932,"NOT_AVG_TPR":4.858,"NOT_AVG_TQR":59.493,"TQR_STANDARD_ERROR":0.6117253769214464,"TSQ_STANDARD_ERROR":0.41082532265082017,"NOT_AVG_TSQ":41.327}]'
@@ -102,11 +102,58 @@ if total1 != 0:
     test2Data2 = sum2 / total2
 
 
+sum0 = 0
+sum1 = 0
+sum2 = 0
+total0 = 0
+total1 = 0
+total2 = 0
+for testRun in jsonData3:
+    sum0 += testRun['DATA0']
+    if testRun['DATA0'] != None:
+        total0 = total0 + 1
+    sum1 += testRun['DATA1']
+    if testRun['DATA0'] != None:
+        total1 = total1 + 1
+    sum2 += testRun['DATA2']
+    if testRun['DATA0'] != None:
+        total2 = total2 + 1
 
-# for testRun in jsonData3:
+if total0 != 0:
+    test3Data0 = sum0 / total0
+
+if total1 != 0:
+    test3Data1 = sum1 / total1
+
+if total1 != 0:
+    test3Data2 = sum2 / total2
 
 
-# for testRun in jsonData4:
+sum0 = 0
+sum1 = 0
+sum2 = 0
+total0 = 0
+total1 = 0
+total2 = 0
+for testRun in jsonData4:
+    sum0 += testRun['DATA0']
+    if testRun['DATA0'] != None:
+        total0 = total0 + 1
+    sum1 += testRun['DATA1']
+    if testRun['DATA0'] != None:
+        total1 = total1 + 1
+    sum2 += testRun['DATA2']
+    if testRun['DATA0'] != None:
+        total2 = total2 + 1
+
+if total0 != 0:
+    test4Data0 = sum0 / total0
+
+if total1 != 0:
+    test4Data1 = sum1 / total1
+
+if total1 != 0:
+    test4Data2 = sum2 / total2
 
 
 # append pseudo rates & avg times from log to lists
@@ -238,6 +285,17 @@ test1Data = [data0, data1, data2]
 ax.pie(test1Data, labels = data,autopct='%1.2f%%')
 plt.show()
 
+objects = ('Data 0', 'Data 1', 'Data 2')
+y_pos = np.arange(len(objects))
+test1Data = [data0, data1, data2]
+
+plt.bar(y_pos, test1Data, align='center', alpha=0.5)
+plt.xticks(y_pos, objects)
+plt.ylabel('Percentage')
+plt.title('Test 1 data type percentage')
+
+plt.show()
+
 # #test2 data plot
 fig = plt.figure()
 ax = fig.add_axes([0,0,1,1])
@@ -247,9 +305,39 @@ test2Data = [test2Data0, test2Data1, test2Data2]
 ax.pie(test2Data, labels = data,autopct='%1.2f%%')
 plt.show()
 
+objects = ('Data 0', 'Data 1', 'Data 2')
+y_pos = np.arange(len(objects))
+
+plt.bar(y_pos, test2Data, align='center', alpha=0.5)
+plt.xticks(y_pos, objects)
+plt.ylabel('Percentage')
+plt.title('Test 2 data type percentage')
+
+plt.show()
+
 # #test3 data plot
+objects = ('Data 0', 'Data 1', 'Data 2')
+y_pos = np.arange(len(objects))
+
+test3Data = [test3Data0, test3Data1, test3Data2]
+plt.bar(y_pos, test3Data, align='center', alpha=0.5)
+plt.xticks(y_pos, objects)
+plt.ylabel('Percentage')
+plt.title('Test 3 data type percentage')
+
+plt.show()
 
 # #test4 data plot
+objects = ('Data 0', 'Data 1', 'Data 2')
+y_pos = np.arange(len(objects))
+
+test4Data = [test4Data0, test4Data1, test4Data2]
+plt.bar(y_pos, test4Data, align='center', alpha=0.5)
+plt.xticks(y_pos, objects)
+plt.ylabel('Percentage')
+plt.title('Test 4 data type percentage')
+
+plt.show()
 
 # #test3 auth plot
 df = pantelis.DataFrame({'Inner Auth Fail' : test3Val1, 'Outer Auth Fail' : test3Val0, 'Successful Auth' : test3Val2}, index=test3Rates)
