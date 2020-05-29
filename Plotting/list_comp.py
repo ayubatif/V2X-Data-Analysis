@@ -25,23 +25,20 @@ jsonTime4 = json.loads(jsonTimeStr4)
 jsonVal3 = json.loads(jsonValStr3)
 jsonVal4 = json.loads(jsonValStr4)
 
-# empty data 0 lists to be filled
-test1Data0 = []
-test2Data0 = []
-test3Data0 = []
-test4Data0 = []
+# empty data 0 averages to be filled
+test2Data0 = 0
+test3Data0 = 0
+test4Data0 = 0
 
-# empty data 1 lists to be filled
-test1Data1 = []
-test2Data1 = []
-test3Data1 = []
-test4Data1 = []
+# empty data 1 averages to be filled
+test2Data1 = 0
+test3Data1 = 0
+test4Data1 = 0
 
-# empty data 2 lists to be filled
-test1Data2 = []
-test2Data2 = []
-test3Data2 = []
-test4Data2 = []
+# empty data 2 averages to be filled
+test2Data2 = 0
+test3Data2 = 0
+test4Data2 = 0
 
 # total time samples
 totalSamples = jsonTime3[0]['TOTAL']
@@ -78,7 +75,32 @@ test4Val2 = []
 
 # append data rates  from log to lists
 
-# for testRun in jsonData2:
+sum0 = 0
+sum1 = 0
+sum2 = 0
+total0 = 0
+total1 = 0
+total2 = 0
+for testRun in jsonData2:
+    sum0 += testRun['DATA0']
+    if testRun['DATA0'] != None:
+        total0 = total0 + 1
+    sum1 += testRun['DATA1']
+    if testRun['DATA0'] != None:
+        total1 = total1 + 1
+    sum2 += testRun['DATA2']
+    if testRun['DATA0'] != None:
+        total2 = total2 + 1
+
+if total0 != 0:
+    test2Data0 = sum0 / total0
+
+if total1 != 0:
+    test2Data1 = sum1 / total1
+
+if total1 != 0:
+    test2Data2 = sum2 / total2
+
 
 
 # for testRun in jsonData3:
@@ -212,11 +234,18 @@ for testRun in jsonData1:
     data0 = testRun['DATA0']
     data1 = testRun['DATA1']
     data2 = testRun['DATA2']
-students = [data0, data1, data2]
-ax.pie(students, labels = data,autopct='%1.2f%%')
+test1Data = [data0, data1, data2]
+ax.pie(test1Data, labels = data,autopct='%1.2f%%')
 plt.show()
 
 # #test2 data plot
+fig = plt.figure()
+ax = fig.add_axes([0,0,1,1])
+ax.axis('equal')
+data = ['Data 0', 'Data 1', 'Data 2']
+test2Data = [test2Data0, test2Data1, test2Data2]
+ax.pie(test2Data, labels = data,autopct='%1.2f%%')
+plt.show()
 
 # #test3 data plot
 
