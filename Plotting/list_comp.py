@@ -426,3 +426,17 @@ plt.xlabel('Pseudonym Change Rate')
 plt.ylabel('Time in milliseconds')
 plt.title('Experiment 4 Time Analysis')
 plt.show()
+
+# #all test time plot
+timeData = [[test1MeanTSQ, test1MeanTPR, test1MeanTQR], [test2MeanTSQ, test2MeanTPR, test2MeanTQR], [test3MeanTSQ, test3MeanTPR, test3MeanTQR], [test4MeanTSQ, test4MeanTPR, test4MeanTQR]]
+
+df = pantelis.DataFrame(timeData, columns = ['TSQ', 'TPR', 'TQR'])
+df.plot.bar(stacked=True)
+print(df)
+
+objects = ['Test 1', 'Test 2', 'Test 3', 'Test 4']
+plt.xticks(y_pos, objects)
+plt.xlabel('Pseudonym Change Rate')
+plt.ylabel('Time in milliseconds')
+plt.title('Mean time Analysis of the different experiments')
+plt.show()
