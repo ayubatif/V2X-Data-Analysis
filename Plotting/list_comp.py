@@ -317,9 +317,9 @@ import matplotlib.pyplot as plt
 import pandas as pantelis
 
 # #test1 data plot
-fig = plt.figure()
-ax = fig.add_axes([0,0,1,1])
-ax.axis('equal')
+# fig = plt.figure()
+# ax = fig.add_axes([0,0,1,1])
+# ax.axis('equal')
 data = ['Data 0', 'Data 1', 'Data 2']
 data0 = 0
 data1 = 0
@@ -329,8 +329,8 @@ for testRun in jsonData1:
     data1 = testRun['DATA1']
     data2 = testRun['DATA2']
 test1Data = [data0, data1, data2]
-ax.pie(test1Data, labels = data,autopct='%1.2f%%')
-plt.show()
+# ax.pie(test1Data, labels = data,autopct='%1.2f%%')
+# plt.show()
 
 objects = ('Data 0', 'Data 1', 'Data 2')
 y_pos = np.arange(len(objects))
@@ -345,13 +345,13 @@ plt.title('Test 1 data type percentage')
 plt.show()
 
 # #test2 data plot
-fig = plt.figure()
-ax = fig.add_axes([0,0,1,1])
-ax.axis('equal')
+# fig = plt.figure()
+# ax = fig.add_axes([0,0,1,1])
+# ax.axis('equal')
 data = ['Data 0', 'Data 1', 'Data 2']
 test2Data = [test2Data0, test2Data1, test2Data2]
-ax.pie(test2Data, labels = data,autopct='%1.2f%%')
-plt.show()
+# ax.pie(test2Data, labels = data,autopct='%1.2f%%')
+# plt.show()
 
 objects = ('Data 0', 'Data 1', 'Data 2')
 y_pos = np.arange(len(objects))
@@ -389,6 +389,18 @@ plt.yticks(percentTicks)
 plt.ylabel('Percentage')
 plt.title('Test 4 data type percentage')
 
+plt.show()
+
+# test data summary plot
+objects = ('Test 1', 'Test 2', 'Test 3', 'Test 4')
+y_pos = np.arange(len(objects))
+
+testSummaryData = [data0/(data0+data1+data2)*100, test2Data0/(test2Data0+test2Data1+test2Data2)*100, test3Data0/(test3Data0+test3Data1+test3Data2)*100, test4Data0/(test4Data0+test4Data1+test4Data2)*100]
+plt.bar(y_pos, testSummaryData, align='center', alpha=0.5)
+plt.xticks(y_pos, objects)
+plt.yticks(percentTicks)
+plt.ylabel('Percentage of data used was legit')
+plt.title('Test data security success percentage')
 plt.show()
 
 # #test3 auth plot
